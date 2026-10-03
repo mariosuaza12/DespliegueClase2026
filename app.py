@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from pathlib import Path
+from io import BytesIO
 
 # Configurar la página de Streamlit
 st.set_page_config(page_title="Predicción de Nota Final", layout="centered")
@@ -208,7 +209,7 @@ if columnas_one_hot is not None and scaler is not None and model is not None:
                         )
 
                         # Crear Excel para descargar
-                        output = pd.io.common.BytesIO()
+                        output = BytesIO()
 
                         with pd.ExcelWriter(
                             output,
@@ -244,6 +245,9 @@ if columnas_one_hot is not None and scaler is not None and model is not None:
                         st.error(
                             f"Error al procesar el archivo Excel: {e}"
                         )
+
+        except Exception as e:
+            st.error(f"No se pudo leer el archivo Excel: {e}")
 
 else:
     st.warning(
